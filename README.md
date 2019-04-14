@@ -22,7 +22,7 @@ Dynamic linking might work just as well, but my aim was to get this done fast an
 To install the extension, first [download the inidbi2 extension](https://forums.bohemia.net/forums/topic/186131-inidbi2-save-and-load-data-to-the-server-or-your-local-computer-without-databases).
 Put it into your server directory, e.g. `/usr/games/arma3/@inidbi2`.
 Rename the `Addons` folder inside the `@inidbi2` folder to `addons` (The Arma server for Linux doesn't like the capitalized name).
-Download the inidbi2.so file built from this project and place it inside the `@inidbi2` folder (e.g. `/usr/games/arma3/@inidbi2/inidbi2.so`).
+Download the [`inidbi2.so` file](https://github.com/cmd-johnson/inidbi2-linux/raw/master/inidbi2.so) built from this project and place it inside the `@inidbi2` folder (e.g. `/usr/games/arma3/@inidbi2/inidbi2.so`).
 
 Make sure you add `@inidbi2` to your server's startup command line (e.g. `-serverMod=@inidbi2`).
 
