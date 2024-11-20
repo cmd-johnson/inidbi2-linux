@@ -15,7 +15,7 @@
 
 namespace pt = boost::property_tree;
 
-#define VERSION "2.05 (linux)"
+#define VERSION "2.06 (linux)"
 #define BASE_DIR "./@inidbi2/db/"
 
 Inidbi2* instance = nullptr;
@@ -69,12 +69,14 @@ std::string Inidbi2::Invoke(std::string const& parameters)
   } else if (function == "encodebase64" && this->SufficientParams(lines, 1)) {
     return this->EncodeBase64(lines[1]);
   } else if (function == "setseparator" && this->SufficientParams(lines, 1)) {
-    this->separator = lines[1];
-    return "";
+    this->separator = "|" + lines[1];
+    return this->separator;
   } else if (function == "getseparator") {
     return this->separator;
   } else if (function == "getsections" && this->SufficientParams(lines, 1)) {
     return this->GetSections(lines[1]);
+  } else if (function == "getkeys" && this->SufficientParams(lines, 2)) {
+    return this->GetKeys(lines[1], lines[2]);
   } else {
     this->Log("Invalid function: " + function);
     return "";
@@ -248,6 +250,38 @@ std::string Inidbi2::GetSections(std::string const& file)
       sections << "]";
       return sections.str();
     } catch (const std::exception& e) {
+      this->Log(std::string("Error reading ini: ") + e.what());
+    }
+  }
+  return "[]";
+}
+
+std::string Inidbi2::GetKeys(std::string const& file, std::string const& section)
+{
+  if (this->Exists(file)) {
+    try {
+      using namespace boost::property_tree;
+      ptree tree;
+      read_ini(this->GetFullPath(file), tree);
+      std::stringstream keys;
+      keys << "[";
+      bool first = true;
+
+      auto s = tree.get_child_optional(section);
+      if (s) {
+        for (const auto& kv : s.get()) {
+          if (!first) {
+            keys << ", ";
+          }
+          keys << "\"" << kv.first << "\"";
+          first = false;
+        }
+      }
+
+      keys << "]";
+      return keys.str();
+    }
+    catch (const std::exception& e) {
       this->Log(std::string("Error reading ini: ") + e.what());
     }
   }

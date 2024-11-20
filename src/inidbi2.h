@@ -22,9 +22,10 @@ private:
   std::string DeleteSection(std::string const& file, std::string const& section);
   std::string DeleteKey(std::string const& file, std::string const& section, std::string const& key);
   std::string Delete(std::string const& file);
-  bool Exists(std::string  const&file);
+  bool Exists(std::string const& file);
   std::string GetTimestamp();
   std::string EncodeBase64(std::string const& plaintext);
   std::string DecodeBase64(std::string const& encoded);
   std::string GetSections(std::string const& file);
+  std::string GetKeys(std::string const& file, std::string const& section);
 };
